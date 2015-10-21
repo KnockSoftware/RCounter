@@ -1,0 +1,14 @@
+PODS:
+  - RCounter (0.1.0)
+
+DEPENDENCIES:
+  - RCounter (from `../`)
+
+EXTERNAL SOURCES:
+  RCounter:
+    :path: ../
+
+SPEC CHECKSUMS:
+  RCounter: cc34a2fa7993d730e58528067c3184924b553d7f
+
+COCOAPODS: 0.39.0
