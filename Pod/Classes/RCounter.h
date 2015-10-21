@@ -10,16 +10,15 @@
 
 #import <UIKit/UIKit.h>
 
+IB_DESIGNABLE
 @interface RCounter : UIControl {
-    
-    int currentReading;
     CGPoint centerStart;
 }
 
-@property (nonatomic, readonly) int currentReading;
+@property (nonatomic) IBInspectable NSUInteger currentReading;
+@property (nonatomic) IBInspectable NSUInteger numberOfDigits;
 
-- (void) incrementCounter:(BOOL)animate;
-- (void) updateCounter:(int)newValue animate:(BOOL)animate;
-- (id)initWithFrame:(CGRect)frame andNumberOfDigits:(int)_digits;
+- (void)incrementCounter:(BOOL)animate;
+- (void)updateCounter:(NSUInteger)newValue animate:(BOOL)animate;
 
 @end

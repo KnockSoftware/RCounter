@@ -14,22 +14,100 @@
 #define kCounterDigitDiff 23.0
 
 @interface RCounter ()
-
+@property (nonatomic, retain) UIView *counterCanvas;
 @end
 
 @implementation RCounter {
-    int digits;
-    int tagCounterRightToLeft;
-    int tagCounterLeftToRight;
+    NSUInteger tagCounterRightToLeft;
+    NSUInteger tagCounterLeftToRight;
 }
 
-@synthesize currentReading;
+#pragma mark - Init/Dealloc
 
-- (void) incrementCounter:(BOOL)animate {
-    [self updateCounter:(currentReading + 1) animate:animate];
+- (id)initWithFrame:(CGRect)frame;
+{
+    self = [super initWithFrame:frame];
+    if (self) {
+        [self _initialize];
+    }
+    
+    return self;
 }
 
--(void) updateFrame:(UIImageView*)img withValue:(long)newValue andImageCentre:(CGPoint)imgCentre andImageFrame:(CGRect)frame{
+- (instancetype)initWithCoder:(NSCoder *)coder
+{
+    self = [super initWithCoder:coder];
+    if (self) {
+        [self _initialize];
+    }
+    return self;
+}
+
+- (void)awakeFromNib {
+    [self _setupCounter];
+}
+
+- (void)setNumberOfDigits:(NSUInteger)numberOfDigits {
+    _numberOfDigits = numberOfDigits;
+    
+    [self _setupCounter];
+}
+
+- (void)_setupCounter;
+{
+    CGRect myFrame = self.frame;
+    myFrame.size.width = (self.numberOfDigits * 25) + 10;
+    self.frame = myFrame;
+    
+    tagCounterRightToLeft = 4025;
+    tagCounterLeftToRight = tagCounterRightToLeft + 1 - self.numberOfDigits;
+    
+    // Load the background
+    [self setBackgroundColor:[UIColor blackColor]];
+    
+    // Load the counters
+    if (self.counterCanvas) {
+        [self.counterCanvas removeFromSuperview];
+    }
+    self.counterCanvas = [[UIView alloc] initWithFrame:CGRectMake(0.0, 0.0, 160.0, 70.0)];
+    
+    CGRect frame = CGRectMake(10.0, kCounterDigitStartY, 17.0, 299.0);
+    for (int i = 0; i < self.numberOfDigits; i++) {
+        UIImageView *img = [[UIImageView alloc] initWithFrame:frame];
+        [img setImage:[UIImage imageNamed:@"counter-numbers.png"]];
+        centerStart = img.center;
+        
+        [img setTag: (tagCounterRightToLeft - i)];
+        [self.counterCanvas addSubview:img];
+        frame.origin.x += 25;
+    }
+    
+    [self.counterCanvas.layer setMasksToBounds:YES];
+    [self addSubview:self.counterCanvas];
+    
+    // Add a shadow over top
+    UIImageView *shadowOverlay = [[UIImageView alloc] initWithFrame:CGRectMake(0.0, 0.0, 10 + (self.numberOfDigits * 25), 70.0)];
+    [shadowOverlay setImage:[UIImage imageNamed:@"counter-shadow.png"]];
+    [self addSubview:shadowOverlay];
+    [self bringSubviewToFront:shadowOverlay];
+    [self updateCounter:self.currentReading animate:NO];
+}
+
+- (void)_initialize
+{
+    self.numberOfDigits = 3;
+    self.currentReading = 0;
+}
+
+- (void)prepareForInterfaceBuilder {
+    [self updateCounter:self.currentReading animate:NO];
+}
+
+- (void)incrementCounter:(BOOL)animate {
+    [self updateCounter:(self.currentReading + 1) animate:animate];
+}
+
+-(void)updateFrame:(UIImageView*)img withValue:(long)newValue andImageCentre:(CGPoint)imgCentre andImageFrame:(CGRect)frame{
     CABasicAnimation *anim = [CABasicAnimation animationWithKeyPath:@"position"];
     anim.fromValue = [NSValue valueWithCGPoint:img.center];
     if (newValue == 0) {
@@ -43,12 +121,7 @@
     img.frame = frame;
 }
 
-- (void) updateCounter:(int)newValue animate:(BOOL)animate {
-
-    // Only do something if it is different
-    if (newValue == currentReading)
-        return;
-    
+- (void)updateCounter:(NSUInteger)newValue animate:(BOOL)animate {
     // Work out the digits
     int hthousandth = (newValue % 1000000)/100000;
     int tenthounsandth = (newValue % 100000) / 10000;
@@ -65,7 +138,7 @@
     [array addObject: [NSNumber numberWithInt:tenthounsandth]];
     [array addObject: [NSNumber numberWithInt:hthousandth]];
     
-    for (int i = 0; i < digits; i++) {
+    for (int i = 0; i < self.numberOfDigits; i++) {
         UIImageView *img = (UIImageView*)[self viewWithTag:(tagCounterLeftToRight + i)];
         
         CGRect imgFrame = img.frame;
@@ -84,56 +157,7 @@
         }
     }
 
-    currentReading = newValue;
-}
-
-#pragma mark - Init/Dealloc
-
-- (id)initWithFrame:(CGRect)frame andNumberOfDigits:(int)_digits
-{
-    frame.size.width = (_digits * 25) + 10;
-    self = [super initWithFrame:frame];
-    if (self) {
-        
-        if (_digits > 6) {
-            _digits = 6;
-        }
-        digits = _digits;
-        
-        tagCounterRightToLeft = 4025;
-        tagCounterLeftToRight = tagCounterRightToLeft + 1 - digits;
-        
-        // Load the background
-        [self setBackgroundColor:[UIColor blackColor]];
-        
-        // Load the counters
-        UIView *counterCanvas = [[UIView alloc] initWithFrame:CGRectMake(0.0, 0.0, 160.0, 70.0)];
-        
-        CGRect frame = CGRectMake(10.0, kCounterDigitStartY, 17.0, 299.0);
-        for (int i = 0; i < digits; i++) {
-            UIImageView *img = [[UIImageView alloc] initWithFrame:frame];
-            [img setImage:[UIImage imageNamed:@"counter-numbers.png"]];
-            centerStart = img.center;
-            
-            [img setTag: (tagCounterRightToLeft - i)];
-            [counterCanvas addSubview:img];
-            frame.origin.x += 25;
-        }
-        
-        [counterCanvas.layer setMasksToBounds:YES];
-        [self addSubview:counterCanvas];
-
-        // Add a shadow over top
-        UIImageView *shadowOverlay = [[UIImageView alloc] initWithFrame:CGRectMake(0.0, 0.0, 10 + (digits * 25), 70.0)];
-        [shadowOverlay setImage:[UIImage imageNamed:@"counter-shadow.png"]];
-        [self addSubview:shadowOverlay];
-        [self bringSubviewToFront:shadowOverlay];
-        
-        // Set the current reading
-        currentReading = 1;
-    }
-    
-    return self;
+    self.currentReading = newValue;
 }
 
 @end

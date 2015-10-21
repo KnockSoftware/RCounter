@@ -7,7 +7,9 @@
 //
 
 @import UIKit;
+#import "RCounter.h"
 
 @interface RViewController : UIViewController
+@property (weak, nonatomic) IBOutlet RCounter *counter;
 
 @end

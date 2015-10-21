@@ -7,14 +7,12 @@
 //
 
 #import "RViewController.h"
-#import "RCounter.h"
 
 #define kRefreshTimeInSeconds 1
 
 @interface RViewController () {
     NSTimer *myTimerName;
     long second;
-    RCounter *counter;
 }
 
 @end
@@ -24,11 +22,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
-    counter = [[RCounter alloc] initWithFrame:CGRectMake(0, 0, 160, 70) andNumberOfDigits:5];
-    [self.view addSubview:counter];
-    counter.center = self.view.center;
-    
+        
     second = 0;
     
     myTimerName = [NSTimer scheduledTimerWithTimeInterval: kRefreshTimeInSeconds target:self selector:@selector(handleTimer:) userInfo:nil repeats:YES];}
@@ -43,7 +37,7 @@
 {
     
     //    [counter updateCounter:second animate:YES];
-    [counter incrementCounter:YES];
+    [self.counter incrementCounter:YES];
     //    second++;
 }
 

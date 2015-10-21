@@ -67,6 +67,7 @@
 		84B9A45A1BD83D4500F9550F /* counter-numbers@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "counter-numbers@2x.png"; path = "../../Pod/Assets/counter-numbers@2x.png"; sourceTree = "<group>"; };
 		84B9A45B1BD83D4500F9550F /* counter-shadow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "counter-shadow.png"; path = "../../Pod/Assets/counter-shadow.png"; sourceTree = "<group>"; };
 		84B9A45C1BD83D4500F9550F /* counter-shadow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "counter-shadow@2x.png"; path = "../../Pod/Assets/counter-shadow@2x.png"; sourceTree = "<group>"; };
+		84B9A4611BD83FEE00F9550F /* RCounter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = RCounter.h; path = ../../Pod/Classes/RCounter.h; sourceTree = "<group>"; };
 		873B8AEA1B1F5CCA007FD442 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		98CBD4DEBDFC8B2FDC3A5AE1 /* Pods-RCounter_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RCounter_Example.release.xcconfig"; path = "Pods/Target Support Files/Pods-RCounter_Example/Pods-RCounter_Example.release.xcconfig"; sourceTree = "<group>"; };
 		AB0D35F900EF17CA9C922B40 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
@@ -142,6 +143,7 @@
 				84B9A45A1BD83D4500F9550F /* counter-numbers@2x.png */,
 				84B9A45B1BD83D4500F9550F /* counter-shadow.png */,
 				84B9A45C1BD83D4500F9550F /* counter-shadow@2x.png */,
+				84B9A4611BD83FEE00F9550F /* RCounter.h */,
 				6003F59C195388D20070C39A /* RAppDelegate.h */,
 				6003F59D195388D20070C39A /* RAppDelegate.m */,
 				873B8AEA1B1F5CCA007FD442 /* Main.storyboard */,
